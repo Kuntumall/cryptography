@@ -1,0 +1,66 @@
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+// Function to perform monoalphabetic substitution
+void monoalphabetic_cipher(char *plaintext, char *key) {
+    int i;
+    char cipher[26];
+
+    // Initialize cipher mapping
+    for (i = 0; i < 26; i++) {
+        cipher[i] = 'a' + i;
+    }
+
+    // Apply key substitution
+    for (i = 0; i < strlen(key); i++) {
+        cipher[i] = key[i];
+    }
+
+    // Encrypt plaintext
+    for (i = 0; i < strlen(plaintext); i++) {
+        if (isalpha(plaintext[i])) {
+            if (isupper(plaintext[i])) {
+                printf("%c", toupper(cipher[tolower(plaintext[i]) - 'a']));
+            } else {
+                printf("%c", cipher[plaintext[i] - 'a']);
+            }
+        } else {
+            printf("%c", plaintext[i]);
+        }
+    }
+}
+
+// Function to perform polyalphabetic substitution
+void polyalphabetic_cipher(char *plaintext, char *key) {
+    int i, j = 0;
+
+    // Encrypt plaintext
+    for (i = 0; i < strlen(plaintext); i++) {
+        char subkey[2] = { key[j % strlen(key)], '\0' };
+        monoalphabetic_cipher(&plaintext[i], subkey);
+        if (isalpha(plaintext[i]))
+            j++;
+    }
+    printf("\n");
+}
+
+// Main function
+int main() {
+    char plaintext[100];
+    char key[100];
+
+    // Input plaintext and key
+    printf("Enter plaintext: ");
+    fgets(plaintext, 100, stdin);
+    plaintext[strcspn(plaintext, "\n")] = '\0'; // Removing newline character
+
+    printf("Enter key: ");
+    fgets(key, 100, stdin);
+    key[strcspn(key, "\n")] = '\0'; // Removing newline character
+
+    // Perform polyalphabetic substitution
+    polyalphabetic_cipher(plaintext, key);
+
+    return 0;
+}
