@@ -1,0 +1,41 @@
+	#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+void encryptVigenere(char *plaintext, char *key) {
+    int i, j;
+    int keyLength = strlen(key);
+    int textLength = strlen(plaintext);
+    char encrypted[textLength];
+
+    for (i = 0, j = 0; i < textLength; ++i, ++j) {
+        if (j == keyLength)
+            j = 0;
+
+        if (isalpha(plaintext[i])) {
+            char base = islower(plaintext[i]) ? 'a' : 'A';
+            encrypted[i] = ((plaintext[i] + key[j] - 2 * base) % 26) + base;
+        } else {
+            encrypted[i] = plaintext[i];
+            --j; // Skip the key for non-alphabetic characters
+        }
+    }
+
+    encrypted[i] = '\0';
+    strcpy(plaintext, encrypted);
+}
+
+int main() {
+    char plaintext[100], key[100];
+
+    printf("Enter the plaintext: ");
+    scanf("%s", plaintext);
+    printf("Enter the key: ");
+    scanf("%s", key);
+
+    encryptVigenere(plaintext, key);
+
+    printf("Encrypted text: %s\n", plaintext);
+
+    return 0;
+}
