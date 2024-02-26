@@ -1,0 +1,60 @@
+#include <stdio.h>
+#include <string.h>
+
+// Function to decode the ciphertext using a simple substitution algorithm
+void decode_simple_substitution(char *ciphertext) {
+    int i;
+
+    // Define the mapping for substitution
+    char substitution[] = {
+        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+        'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
+        'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
+        'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd',
+        'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
+        'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x',
+        'y', 'z'
+    };
+
+    // Define the characters corresponding to the given ciphertext
+    char characters[] = {
+        ' ', '!', '"', '#', '$', '%', '&', '\'', '(', ')',
+        '*', '+', ',', '-', '.', '/', '0', '1', '2', '3',
+        '4', '5', '6', '7', '8', '9', ':', ';', '<', '=',
+        '>', '?', '@', 'A', 'B', 'C', 'D', 'E', 'F', 'G',
+        'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q',
+        'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '[',
+        '\\', ']', '^', '_', '`', 'a', 'b', 'c', 'd', 'e',
+        'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o',
+        'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y',
+        'z'
+    };
+
+    // Decode the ciphertext
+    for (i = 0; i < strlen(ciphertext); i++) {
+        if (ciphertext[i] >= '0' && ciphertext[i] <= '9') {
+            int index = ciphertext[i] - '0';
+            printf("%c", substitution[index]);
+        } else if (ciphertext[i] >= 'A' && ciphertext[i] <= 'Z') {
+            int index = ciphertext[i] - 'A' + 10;
+            printf("%c", substitution[index]);
+        } else if (ciphertext[i] >= 'a' && ciphertext[i] <= 'z') {
+            int index = ciphertext[i] - 'a' + 36;
+            printf("%c", substitution[index]);
+        } else {
+            printf("%c", ciphertext[i]);
+        }
+    }
+}
+
+// Main function
+int main() {
+    char ciphertext[] = "53‡‡†305))6*;4826)4‡.)4‡);806*;48†8¶60))85;;]8*;:‡*8†83 \
+(88)5*†;46(;88*96*?;8)*‡(;485);5*†2:*‡(;4956*2(5*—4)8¶8* \
+;4069285);)6†8)4‡‡;1(‡9;48081;8:8‡1;48†85;4)485†528806*81 (‡9;48;(88;4(‡?34;48)4‡;161;:188;‡?;";
+
+    // Decode the ciphertext
+    decode_simple_substitution(ciphertext);
+
+    return 0;
+}
