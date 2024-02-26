@@ -1,0 +1,53 @@
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+// Function to perform monoalphabetic substitution
+void monoalphabetic_cipher(char *plaintext, char *key) {
+    int i;
+    char cipher[26];
+
+    // Initialize cipher mapping
+    for (i = 0; i < 26; i++) {
+        cipher[i] = 'a' + i;
+    }
+
+    // Apply key substitution
+    for (i = 0; i < strlen(key); i++) {
+        cipher[i] = key[i];
+    }
+
+    // Encrypt plaintext
+    for (i = 0; i < strlen(plaintext); i++) {
+        if (isalpha(plaintext[i])) {
+            if (isupper(plaintext[i])) {
+                printf("%c", toupper(cipher[tolower(plaintext[i]) - 'a']));
+            } else {
+                printf("%c", cipher[plaintext[i] - 'a']);
+            }
+        } else {
+            printf("%c", plaintext[i]);
+        }
+    }
+    printf("\n");
+}
+
+// Main function
+int main() {
+    char plaintext[100];
+    char key[26];
+
+    // Input plaintext and key
+    printf("Enter plaintext: ");
+    fgets(plaintext, 100, stdin);
+    plaintext[strcspn(plaintext, "\n")] = '\0'; // Removing newline character
+
+    printf("Enter key (26 unique letters): ");
+    fgets(key, 26, stdin);
+    key[strcspn(key, "\n")] = '\0'; // Removing newline character
+
+    // Perform monoalphabetic substitution
+    monoalphabetic_cipher(plaintext, key);
+
+    return 0;
+}
