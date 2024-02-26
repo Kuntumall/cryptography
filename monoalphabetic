@@ -1,0 +1,57 @@
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+// Function to generate a monoalphabetic cipher sequence from a keyword
+void generate_cipher_sequence(char *keyword, char *cipher_sequence) {
+    int i, j;
+    int used[26] = {0};
+
+    // Copy the keyword to the cipher sequence and mark used letters
+    for (i = 0; i < strlen(keyword); i++) {
+        char c = toupper(keyword[i]);
+        if (isalpha(c) && !used[c - 'A']) {
+            cipher_sequence[j++] = c;
+            used[c - 'A'] = 1;
+        }
+    }
+
+    // Fill the remaining unused letters in normal order
+    for (i = 0; i < 26; i++) {
+        if (!used[i]) {
+            cipher_sequence[j++] = 'A' + i;
+        }
+    }
+
+    cipher_sequence[j] = '\0';
+}
+
+// Function to encrypt plaintext using a monoalphabetic cipher
+void monoalphabetic_cipher(char *plaintext, char *cipher_sequence) {
+    int i;
+
+    // Encrypt plaintext
+    for (i = 0; i < strlen(plaintext); i++) {
+        if (isalpha(plaintext[i])) {
+            char c = toupper(plaintext[i]);
+            printf("%c", isupper(plaintext[i]) ? cipher_sequence[c - 'A'] : tolower(cipher_sequence[c - 'A']));
+        } else {
+            printf("%c", plaintext[i]);
+        }
+    }
+}
+
+// Main function
+int main() {
+    char keyword[] = "CIPHER";
+    char cipher_sequence[26];
+    char plaintext[] = "PT-109 American patrol boat, under the command of Lieutenant John F. Kennedy, was sunk by a Japanese destroyer";
+
+    // Generate monoalphabetic cipher sequence from keyword
+    generate_cipher_sequence(keyword, cipher_sequence);
+
+    // Encrypt plaintext using monoalphabetic cipher
+    monoalphabetic_cipher(plaintext, cipher_sequence);
+
+    return 0;
+}
